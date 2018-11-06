@@ -17,30 +17,24 @@ public class OTPParse implements IParseSMS{
     private Pattern pattern;
     private EditText etResult;
     public OTPParse(EditText etResult){
-        pattern=Pattern.compile("[a-z0-9]{10}");
+        pattern=Pattern.compile("[0-9]{6}");
         this.etResult=etResult;
     }
-    public void parse(String sms){
+    public void parse(String sms) {
         try {
             Matcher matcher = pattern.matcher(sms);
             while (matcher.find()) {
 
-                int numCount = 0;
-                int alphaCount = 0;
-                String sample = matcher.group();
-                for (char c : sample.toCharArray()) {
-                    if (Character.isLetter(c))
-                        alphaCount++;
-                    else if (Character.isDigit(c))
-                        numCount++;
-                }
-                if (numCount < 5 || alphaCount < 5) {
-                    otp = sample;
-                    etResult.setText(otp);
 
-                }
+                String sample = matcher.group();
+
+                otp = sample;
+                etResult.setText(otp);
+
+
             }
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
     }
 
 
