@@ -15,6 +15,7 @@ public class SmsReceiver extends BroadcastReceiver {
     public static String receiveSMS;
     public static String receivePhone;
     public static IParseSMS smsParser;
+    public static IProcessor processor;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -36,10 +37,12 @@ public class SmsReceiver extends BroadcastReceiver {
                 if(smsParser!=null) {
 
                     smsParser.parse(receiveSMS);
+                    processor.process();
                 }
                 else{
                     Toast.makeText(context,"Parser not found",Toast.LENGTH_LONG).show();
                 }
+
             }
 
         }

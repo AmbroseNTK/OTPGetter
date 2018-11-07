@@ -34,21 +34,26 @@ public class MainActivity extends AppCompatActivity {
 
             SmsReceiver.smsParser = otpParse;
 
-
-            API apiclient = APIUtils.getData();
-            Call<List<Gsondangnhap>> callback = apiclient.Login( String.valueOf( otpParse.getOtp() ) );
-            callback.enqueue( new Callback<List<Gsondangnhap>>() {
+            SmsReceiver.processor = new IProcessor() {
                 @Override
-                public void onResponse(Call<List<Gsondangnhap>> call, Response<List<Gsondangnhap>> response) {
-                    ArrayList<Gsondangnhap> gsondangnhaps = (ArrayList<Gsondangnhap>) response.body();
-                    Toast.makeText( MainActivity.this, "cailon", Toast.LENGTH_SHORT ).show();
-                }
+                public void process() {
+                    API apiclient = APIUtils.getData();
+                    Call<List<Gsondangnhap>> callback = apiclient.Login( String.valueOf( otpParse.getOtp() ) );
+                    callback.enqueue( new Callback<List<Gsondangnhap>>() {
+                        @Override
+                        public void onResponse(Call<List<Gsondangnhap>> call, Response<List<Gsondangnhap>> response) {
+                            ArrayList<Gsondangnhap> gsondangnhaps = (ArrayList<Gsondangnhap>) response.body();
+                            Toast.makeText( MainActivity.this, "cailon", Toast.LENGTH_SHORT ).show();
+                        }
 
-                @Override
-                public void onFailure(Call<List<Gsondangnhap>> call, Throwable t) {
-                    Toast.makeText( MainActivity.this, "concac", Toast.LENGTH_SHORT ).show();
+                        @Override
+                        public void onFailure(Call<List<Gsondangnhap>> call, Throwable t) {
+                            Toast.makeText( MainActivity.this, "concac", Toast.LENGTH_SHORT ).show();
+                        }
+                    } );
                 }
-            } );
+            };
+
         }
     }
 
