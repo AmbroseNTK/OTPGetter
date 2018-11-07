@@ -29,30 +29,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView( R.layout.activity_main );
         etResult = (TextView) findViewById( R.id.textView );
         btnclick = (Button) findViewById( R.id.btRunGetter );
-        //  txtview = (TextView) findViewById( R.id.textView );
-        final OTPParse otpParse = new OTPParse( etResult );
 
-            SmsReceiver.smsParser = otpParse;
+            ArrayList<IParseSMS> listParser=new ArrayList<>();
+            listParser.add(new OTPParse(etResult));
+            listParser.add(new SixDigitsOTP(etResult));
+            SmsReceiver.smsParserList = listParser;
 
-            SmsReceiver.processor = new IProcessor() {
-                @Override
-                public void process() {
-                    API apiclient = APIUtils.getData();
-                    Call<List<Gsondangnhap>> callback = apiclient.Login( String.valueOf( otpParse.getOtp() ) );
-                    callback.enqueue( new Callback<List<Gsondangnhap>>() {
-                        @Override
-                        public void onResponse(Call<List<Gsondangnhap>> call, Response<List<Gsondangnhap>> response) {
-                            ArrayList<Gsondangnhap> gsondangnhaps = (ArrayList<Gsondangnhap>) response.body();
-                            Toast.makeText( MainActivity.this, "cailon", Toast.LENGTH_SHORT ).show();
-                        }
+           SmsReceiver.processor = new IProcessor() {
+               @Override
+               public void process(IParseSMS parseSMS) {
+                       API apiclient = APIUtils.getData();
+                       Call<List<Gsondangnhap>> callback = apiclient.Login( String.valueOf( parseSMS.getOTP()) );
+                       callback.enqueue( new Callback<List<Gsondangnhap>>() {
+                           @Override
+                           public void onResponse(Call<List<Gsondangnhap>> call, Response<List<Gsondangnhap>> response) {
+                               ArrayList<Gsondangnhap> gsondangnhaps = (ArrayList<Gsondangnhap>) response.body();
+                               Toast.makeText( MainActivity.this, "cailon", Toast.LENGTH_SHORT ).show();
+                           }
 
-                        @Override
-                        public void onFailure(Call<List<Gsondangnhap>> call, Throwable t) {
-                            Toast.makeText( MainActivity.this, "concac", Toast.LENGTH_SHORT ).show();
-                        }
-                    } );
-                }
-            };
+                           @Override
+                           public void onFailure(Call<List<Gsondangnhap>> call, Throwable t) {
+                               Toast.makeText( MainActivity.this, "concac", Toast.LENGTH_SHORT ).show();
+                           }
+                       } );
+                   }
+
+           };
 
         }
     }

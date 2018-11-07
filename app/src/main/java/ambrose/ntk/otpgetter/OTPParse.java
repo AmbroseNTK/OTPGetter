@@ -17,7 +17,7 @@ public  class OTPParse implements IParseSMS{
     //private TextView txtview;
 
     public OTPParse(TextView etResult){
-        pattern=Pattern.compile("[0-9]{6}");
+        pattern=Pattern.compile("[a-z0-9]{10}");
         this.etResult=etResult;
     }
     public void parse(String sms){
@@ -38,8 +38,19 @@ public  class OTPParse implements IParseSMS{
                     otp = sample;
                     etResult.setText(otp);
                 }
+                return;
             }
         }catch(Exception e){}
+    }
+
+    @Override
+    public String bankName() {
+        return "VCB";
+    }
+
+    @Override
+    public String getOTP() {
+        return otp;
     }
 
     @Override
