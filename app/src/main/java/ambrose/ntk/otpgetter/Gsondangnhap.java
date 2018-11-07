@@ -28,6 +28,9 @@ public class Gsondangnhap implements Parcelable {
     @SerializedName("usermvt")
     @Expose
     private String usermvt;
+    @SerializedName("otp")
+    @Expose
+    private String otp;
     @SerializedName("name")
     @Expose
     private String name;
@@ -188,6 +191,13 @@ public class Gsondangnhap implements Parcelable {
 
     public void setUsermvt(String usermvt) {
         this.usermvt = usermvt;
+    }
+    public String getOtp() {
+        return otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
     }
 
     public String getName() {

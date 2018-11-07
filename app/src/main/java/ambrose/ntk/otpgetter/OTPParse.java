@@ -1,23 +1,23 @@
 package ambrose.ntk.otpgetter;
 
 import android.widget.EditText;
+import android.widget.TextView;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.Call;
 
 /**
  * Created by root on 16/01/2018.
  */
 
-public class OTPParse implements IParseSMS{
+public  class OTPParse implements IParseSMS{
     private String otp;
     private Pattern pattern;
-    private EditText etResult;
-    public OTPParse(EditText etResult){
-        pattern=Pattern.compile("[a-z0-9]{10}");
+    private TextView etResult;
+    //private TextView txtview;
+
+    public OTPParse(TextView etResult){
+        pattern=Pattern.compile("[0-9]{6}");
         this.etResult=etResult;
     }
     public void parse(String sms){
@@ -37,10 +37,14 @@ public class OTPParse implements IParseSMS{
                 if (numCount < 5 || alphaCount < 5) {
                     otp = sample;
                     etResult.setText(otp);
-
                 }
             }
         }catch(Exception e){}
+    }
+
+    @Override
+    public String Login(String a) {
+        return a;
     }
 
 

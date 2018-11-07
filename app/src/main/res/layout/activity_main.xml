@@ -12,7 +12,6 @@
 
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="OTP GETTER TOOL"
         android:textAlignment="center"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

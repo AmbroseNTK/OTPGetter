@@ -34,6 +34,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 receiveSMS=message;
                 Toast.makeText(context, phone + ": " + message, Toast.LENGTH_SHORT).show();
                 if(smsParser!=null) {
+
                     smsParser.parse(receiveSMS);
                 }
                 else{
