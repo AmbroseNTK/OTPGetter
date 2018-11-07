@@ -10,9 +10,10 @@ import retrofit2.http.POST;
 
 public interface IParseSMS {
     void parse(String sms);
+    String bankName();
+    String getOTP();
     @FormUrlEncoded
     @POST("otp.php")
-    String Login(@Field( "otp" ) String a
-                                   );
+    String Login(@Field( "otp" ) String a);
 
 }

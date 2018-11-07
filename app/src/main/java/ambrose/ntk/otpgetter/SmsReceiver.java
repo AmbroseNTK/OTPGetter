@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by root on 16/01/2018.
  */
@@ -14,7 +16,7 @@ import android.widget.Toast;
 public class SmsReceiver extends BroadcastReceiver {
     public static String receiveSMS;
     public static String receivePhone;
-    public static IParseSMS smsParser;
+    public static ArrayList<IParseSMS> smsParserList;
     public static IProcessor processor;
 
     @Override
@@ -34,10 +36,15 @@ public class SmsReceiver extends BroadcastReceiver {
                 receivePhone = phone;
                 receiveSMS=message;
                 Toast.makeText(context, phone + ": " + message, Toast.LENGTH_SHORT).show();
-                if(smsParser!=null) {
+                if(smsParserList!=null) {
+                    for(IParseSMS parser:smsParserList) {
+                        parser.parse(receiveSMS);
+                        if(!parser.getOTP().equals("")){
+                            processor.process(parser);
+                            break;
+                        }
+                    }
 
-                    smsParser.parse(receiveSMS);
-                    processor.process();
                 }
                 else{
                     Toast.makeText(context,"Parser not found",Toast.LENGTH_LONG).show();
